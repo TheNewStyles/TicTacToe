@@ -136,7 +136,7 @@
     }
 
     function displayWinnerBox(player) {
-        var popup = document.getElementById("popup");
+        var popup = document.getElementById("winner");
         isGameComplete = true;
         popup.style.display = 'inline';
         popup.firstElementChild.innerText = `${player} won the game!`;
@@ -155,7 +155,7 @@
             element.innerText = "";
         });
 
-        var popup = document.getElementById("popup");
+        var popup = document.getElementById("winner");
         popup.style.display = 'none';
     }
 
