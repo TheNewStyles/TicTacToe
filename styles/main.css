@@ -33,7 +33,10 @@ html, body {
 #popup {
     height: 300px;
     width: 75%;
-    background-color: #EDE580;
+    background-color: #5d653a;
+    opacity: 0.95;
+
+    border: 5px solid #FFE0B5;
     border-radius: 15px;
 
     position: absolute;
@@ -43,12 +46,72 @@ html, body {
     display:none;
 }
 
-#popup div {
-    color: #D35269;
-    font-size: 3em;
+#popup div{
+    color: #FFE0B5;
+    font-size: 3rem;
     text-align: center;
     vertical-align: middle;
-    line-height: 200px;
-    text-overflow: ellipsis;
+    line-height: normal;
+
+    margin-top: 8%;
+    margin-right: 5px;
+    margin-left: 5px;
 }
 
+#popup button{
+    background: none;
+    display: block;
+    margin: auto;
+    width: 25%;
+    height: 50px;
+    margin-top: 5%;
+
+    border-radius: 5px;
+    border-color: #FFE0B5;
+
+    color: #FFE0B5;
+    font-size: 2rem;
+}
+
+#popup button::selection{
+    background: none;
+    text-shadow: none;
+}
+
+/*Remove border from edge of board*/
+#cell00{
+   border-left: none;
+   border-top: none;
+}
+
+#cell01{
+    border-top: none;
+}
+
+#cell02{
+    border-top: none;
+    border-right: none;
+}
+
+#cell10{
+    border-left: none;
+}
+
+#cell12{
+    border-right: none;
+}
+
+#cell20{
+    border-left: none;
+    border-bottom: none;
+}
+
+#cell21{
+    border-bottom: none;
+}
+
+#cell22{
+    border-bottom: none;
+    border-right: none;
+}
+/**/
