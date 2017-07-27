@@ -25,15 +25,17 @@
 
             if (counter % 2 === 0) {
                 this.innerText = playerX;
-                executePlayersTurn(this.id, playerX)
-                checkForWinnerHorizontal();
-                checkForWinnerVertically();
+                executePlayersTurn(this.id, playerX);
+                checkForWinnerRows();
+                checkForWinnerColumns();
+                checkForWinnerDiag();
             }
             else {
                 this.innerText = playerO;
                 executePlayersTurn(this.id, playerO);
-                checkForWinnerHorizontal();
-                checkForWinnerVertically();
+                checkForWinnerRows();
+                checkForWinnerColumns();
+                checkForWinnerDiag();
             }
         }
     }
@@ -46,7 +48,7 @@
         console.log(board);
     }
 
-    function checkForWinnerHorizontal() {
+    function checkForWinnerRows() {
         for (var i = 0; i < board.length; i++){
             var oCounter = 0;
             var xCounter = 0;
@@ -66,7 +68,7 @@
         }
     }
 
-    function checkForWinnerVertically() {
+    function checkForWinnerColumns() {
 
         for (var i = 0; i < board.length; i++){
             iterateThroughColumn(i);
@@ -85,7 +87,7 @@
                     console.log("O PLAYER WON");
                 }
             }
-            if (board[i][column] === playerX){
+            else if (board[i][column] === playerX){
                 xCounter++;
                 if (xCounter > 2){
                     console.log("X PLAYER WON");
@@ -93,4 +95,53 @@
             }
         }
     }
+
+    function checkForWinnerDiag() {
+        bottomToTopDiag();
+        topToBottomDiag();
+    }
+
+    function bottomToTopDiag() {
+        var counter = 0;
+        var oCounter = 0;
+        var xCounter = 0;
+
+        for (var j = board.length - 1; j >= 0; j--){
+
+
+            if (board[j][counter] === playerX){
+                xCounter++;
+                if (xCounter > 2){
+                    console.log("X PLAYER WON");
+                }
+            } else if (board[j][counter] === playerO){
+                oCounter++;
+                if (oCounter > 2){
+                    console.log("O PLAYER WON");
+                }
+            }
+            counter++;
+        }
+    }
+
+    function topToBottomDiag() {
+        var oCounter = 0;
+        var xCounter = 0;
+
+        for (var i = 0; i < board.length; i++){
+
+            if (board[i][i] === playerX){
+                xCounter++;
+                if (xCounter > 2){
+                    console.log("X PLAYER WON");
+                }
+            } else if (board[i][i] === playerO){
+                oCounter++;
+                if (oCounter > 2){
+                    console.log("O PLAYER WON");
+                }
+            }
+        }
+    }
+
 })();
