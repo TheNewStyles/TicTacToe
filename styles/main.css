@@ -29,3 +29,26 @@ html, body {
     line-height: 28vh;
     width: 0;
 }
+
+#popup {
+    height: 300px;
+    width: 75%;
+    background-color: #EDE580;
+    border-radius: 15px;
+
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    display:none;
+}
+
+#popup div {
+    color: #D35269;
+    font-size: 3em;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 200px;
+    text-overflow: ellipsis;
+}
+
