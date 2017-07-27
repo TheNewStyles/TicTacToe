@@ -5,6 +5,7 @@
     var counter = 0;
     var playerX = "X";
     var playerO = "O";
+    var isGameComplete = false;
 
     initBoard();
 
@@ -20,7 +21,7 @@
     }
 
     function start() {
-        if(this.innerText != playerX && this.innerText != playerO) {
+        if(this.innerText != playerX && this.innerText != playerO && !isGameComplete) {
             counter++;
 
             if (counter % 2 === 0) {
@@ -130,8 +131,15 @@
 
     function checkWin(counter, player) {
         if (counter > 2){
+            displayWinnerBox();
             console.log(`${player} PLAYER WON`);
         }
     }
 
+    function displayWinnerBox() {
+        var popup = document.getElementById("popup");
+        isGameComplete = true;
+        popup.style.display = 'inline';
+    }
+    
 })();
