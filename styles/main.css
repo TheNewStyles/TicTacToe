@@ -18,23 +18,14 @@ html, body {
     text-align: center;
 }
 
-.wrapper > * {
-    padding: 10px;
-    flex: 1 100%;
-}
-
-.header {
-    background: tomato;
-}
-
-.footer {
-    background: lightgreen;
-}
 
 .main {
-    min-height: 29.5vh;
-    background: deepskyblue;
+    min-height: 33vh;
+    background: #A4AF69;
     flex: 1 auto;
-    border: 4px solid orange;
-    line-height: 25vh;
+    border: 4px solid #EDE580;
+    font-size: 7em;
+    color: #FFE0B5;
+    line-height: 28vh;
+    width: 0;
 }
