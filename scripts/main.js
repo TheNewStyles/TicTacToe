@@ -55,14 +55,10 @@
             for (var j = 0; j < board[i].length; j++){
                 if (board[i][j] === playerO) {
                     oCounter++;
-                    if(oCounter > 2){
-                        console.log("O PLAYER WON");
-                    }
+                    checkWin(oCounter, playerO);
                 }else if (board[i][j] === playerX){
                     xCounter++;
-                    if(xCounter > 2){
-                        console.log("X PLAYER WON");
-                    }
+                    checkWin(xCounter, playerX);
                 }
             }
         }
@@ -83,15 +79,11 @@
         {
             if (board[i][column] === playerO){
                 oCounter++;
-                if (oCounter > 2){
-                    console.log("O PLAYER WON");
-                }
+                checkWin(oCounter, playerO);
             }
             else if (board[i][column] === playerX){
                 xCounter++;
-                if (xCounter > 2){
-                    console.log("X PLAYER WON");
-                }
+                checkWin(xCounter, playerX);
             }
         }
     }
@@ -111,14 +103,10 @@
 
             if (board[j][counter] === playerX){
                 xCounter++;
-                if (xCounter > 2){
-                    console.log("X PLAYER WON");
-                }
+                checkWin(xCounter, playerX);
             } else if (board[j][counter] === playerO){
                 oCounter++;
-                if (oCounter > 2){
-                    console.log("O PLAYER WON");
-                }
+                checkWin(oCounter, playerO);
             }
             counter++;
         }
@@ -132,15 +120,17 @@
 
             if (board[i][i] === playerX){
                 xCounter++;
-                if (xCounter > 2){
-                    console.log("X PLAYER WON");
-                }
+                checkWin(xCounter, playerX);
             } else if (board[i][i] === playerO){
                 oCounter++;
-                if (oCounter > 2){
-                    console.log("O PLAYER WON");
-                }
+                checkWin(oCounter, playerO);
             }
+        }
+    }
+
+    function checkWin(counter, player) {
+        if (counter > 2){
+            console.log(`${player} PLAYER WON`);
         }
     }
 
