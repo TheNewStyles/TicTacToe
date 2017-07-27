@@ -30,7 +30,7 @@ html, body {
     width: 0;
 }
 
-#popup {
+.popup-div {
     height: 300px;
     width: 75%;
     background-color: #5d653a;
@@ -43,10 +43,9 @@ html, body {
     top: 30%;
     left: 50%;
     transform: translateX(-50%);
-    display:none;
 }
 
-#popup div{
+.popup-div div{
     color: #FFE0B5;
     font-size: 3rem;
     text-align: center;
@@ -58,7 +57,7 @@ html, body {
     margin-left: 5px;
 }
 
-#popup button{
+.popup-div button{
     background: none;
     display: block;
     margin: auto;
@@ -73,7 +72,27 @@ html, body {
     font-size: 2rem;
 }
 
-#popup button::selection{
+#player1{
+    display: inline-block;
+    position: absolute;
+    left: 40%;
+    transform: translateX(-50%);
+    width: 20%;
+}
+
+#player2{
+    display: inline-block;
+    position: absolute;
+    left: 60%;
+    transform: translateX(-50%);
+    width: 20%;
+}
+
+#winner{
+    display:none;
+}
+
+#winner button::selection{
     background: none;
     text-shadow: none;
 }
