@@ -2,13 +2,13 @@
 
     var board = [];
     var mainClass = document.getElementsByClassName("main");
+    var popupButton = document.getElementById("popup-button");
     var counter = 0;
     var playerX = "X";
     var playerO = "O";
     var isGameComplete = false;
 
     initBoard();
-
 
     Array.from(mainClass).forEach(function(element) {
             element.addEventListener('click', start);
@@ -42,8 +42,8 @@
     }
 
     function executePlayersTurn(id, player) {
-        var row = id.slice(0,1);
-        var col = id.slice(2,3);
+        var row = id.slice(4,5);
+        var col = id.slice(5,6);
 
         board[row][col] = player;
         console.log(board);
@@ -131,15 +131,32 @@
 
     function checkWin(counter, player) {
         if (counter > 2){
-            displayWinnerBox();
-            console.log(`${player} PLAYER WON`);
+            displayWinnerBox(player);
         }
     }
 
-    function displayWinnerBox() {
+    function displayWinnerBox(player) {
         var popup = document.getElementById("popup");
         isGameComplete = true;
         popup.style.display = 'inline';
+        popup.firstElementChild.innerText = `${player} won the game!`;
     }
-    
+
+    popupButton.addEventListener('click', reset);
+
+    function reset() {
+        board = [];
+        isGameComplete = false;
+        counter = 0;
+
+        initBoard();
+
+        Array.from(mainClass).forEach(function(element) {
+            element.innerText = "";
+        });
+
+        var popup = document.getElementById("popup");
+        popup.style.display = 'none';
+    }
+
 })();
