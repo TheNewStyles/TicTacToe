@@ -6,14 +6,24 @@
     var playerO = "O";
     var isGameComplete = false;
     var hasSelectedNumOfPlayers = false;
+    var numOfPlayers = 0;
 
     var mainClass = document.getElementsByClassName("main");
     var resetButton = document.getElementById("popup-button");
+    var playerSelectClass = document.getElementsByClassName("player-select");
 
+    // event listeners //
     Array.from(mainClass).forEach(function(element) {
-        element.addEventListener('click', startSinglePlayer);
+        element.addEventListener("click", startSinglePlayer);
     });
-    resetButton.addEventListener('click', reset);
+
+    Array.from(playerSelectClass).forEach(function(element) {
+        element.addEventListener("click", playerSelect);
+    })
+
+    resetButton.addEventListener("click", reset);
+    /////////////////////
+
 
     initBoard();
 
@@ -21,6 +31,12 @@
         for (var i = 0; i <= 2; i++){
             board.push([0,0,0]);
         }
+    }
+
+    function playerSelect(){
+        numOfPlayers = this.innerText;
+        document.getElementById("players").style.display = "none";
+        hasSelectedNumOfPlayers = true;
     }
 
     function startSinglePlayer() {
@@ -45,11 +61,10 @@
     }
 
     function canExecuteTurn() {
-        return
-            this.innerText != playerX
-            && this.innerText != playerO
-            && !isGameComplete
-            && hasSelectedNumOfPlayers;
+        return (this.innerText != playerX
+                && this.innerText != playerO
+                && !isGameComplete
+                && hasSelectedNumOfPlayers) ;
     }
 
     function executePlayersTurn(id, player) {
@@ -145,7 +160,7 @@
     function displayWinnerBox(player) {
         var popup = document.getElementById("winner");
         isGameComplete = true;
-        popup.style.display = 'inline';
+        popup.style.display = "inline";
         popup.firstElementChild.innerText = `${player} won the game!`;
     }
 
@@ -161,7 +176,7 @@
         });
 
         var popup = document.getElementById("winner");
-        popup.style.display = 'none';
+        popup.style.display = "none";
     }
 
 })();
