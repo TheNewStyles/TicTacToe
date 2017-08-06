@@ -12,13 +12,21 @@
     var resetButton = document.getElementById("popup-button");
     var playerSelectClass = document.getElementsByClassName("player-select");
 
+    //listeners
     Array.from(playerSelectClass).forEach(function(element) {
         element.addEventListener("click", playerSelect);
     })
 
     resetButton.addEventListener("click", reset);
 
-    initBoard();
+
+
+    //////////////////////////////////////////////////////////////////////////
+    startUp();
+
+    function startUp() {
+        initBoard();
+    }
 
     function initBoard() {
         for (var i = 0; i <= 2; i++){
@@ -30,6 +38,11 @@
         numOfPlayers = this.innerText;
         document.getElementById("players").style.display = "none";
         hasSelectedNumOfPlayers = true;
+
+        Array.from(mainClass).forEach(function(element) {
+            element.removeEventListener("click", startSinglePlayer);
+            element.removeEventListener("click", startTwoPlayer);
+        });
 
         Array.from(mainClass).forEach(function(element) {
             if (numOfPlayers === "1") {
@@ -51,11 +64,28 @@
                 checkForWinnerColumns();
                 checkForWinnerDiag();
 
-                //TODO execute AI turn
-                //increase counter
-                //select middle spot if open
-                //else select random (for now)
-                //check for winner
+                //execute AI
+                counter++;
+                if (board[1][1] === 0) {
+                    setTimeout(function(){document.getElementById("cell11").innerText = playerX;}, 400);
+                    board[1][1] = "X";
+                    checkForWinnerRows();
+                    checkForWinnerColumns();
+                    checkForWinnerDiag();
+                } else {
+                    for (var i = 0; i < board.length; i++) {
+                        for (var j = 0; j < board[i].length; j++) {
+                            if (board[i][j] === 0) {
+                                updateAiCell(i,j);
+                                board[i][j] = playerX;
+                                checkForWinnerRows();
+                                checkForWinnerColumns();
+                                checkForWinnerDiag();
+                                return;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -78,6 +108,13 @@
                 checkForWinnerDiag();
             }
         }
+    }
+
+    function updateAiCell(i, j) {
+        var row = i;
+        var col = j;
+        var cell = "cell" + row + col;
+        setTimeout(function(){document.getElementById(cell).innerText = playerX;}, 400);
     }
 
     function canExecuteTurn(element) {
@@ -186,12 +223,16 @@
     function reset() {
         board = [];
         isGameComplete = false;
+        hasSelectedNumOfPlayers = false;
+        numOfPlayers = 0;
         counter = 0;
         initBoard();
 
         Array.from(mainClass).forEach(function(element) {
             element.innerText = "";
         });
+
+        document.getElementById("players").style.display = "block";
 
         var popup = document.getElementById("winner");
         popup.style.display = "none";
