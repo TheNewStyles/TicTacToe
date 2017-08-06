@@ -72,7 +72,7 @@ html, body {
     font-size: 2rem;
 }
 
-#player1{
+#onePlayer{
     display: inline-block;
     position: absolute;
     left: 40%;
@@ -80,7 +80,7 @@ html, body {
     width: 20%;
 }
 
-#player2{
+#twoPlayer{
     display: inline-block;
     position: absolute;
     left: 60%;
