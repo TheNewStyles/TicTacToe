@@ -12,18 +12,11 @@
     var resetButton = document.getElementById("popup-button");
     var playerSelectClass = document.getElementsByClassName("player-select");
 
-    // event listeners //
-    Array.from(mainClass).forEach(function(element) {
-        element.addEventListener("click", startSinglePlayer);
-    });
-
     Array.from(playerSelectClass).forEach(function(element) {
         element.addEventListener("click", playerSelect);
     })
 
     resetButton.addEventListener("click", reset);
-    /////////////////////
-
 
     initBoard();
 
@@ -37,10 +30,38 @@
         numOfPlayers = this.innerText;
         document.getElementById("players").style.display = "none";
         hasSelectedNumOfPlayers = true;
+
+        Array.from(mainClass).forEach(function(element) {
+            if (numOfPlayers === "1") {
+                element.addEventListener("click", startSinglePlayer);
+            } else {
+                element.addEventListener("click", startTwoPlayer);
+            }
+        });
     }
 
     function startSinglePlayer() {
-        if (canExecuteTurn()) {
+        if (canExecuteTurn(this)) {
+            counter++
+
+            if (counter % 2 !== 0) {
+                this.innerText = playerO;
+                executePlayersTurn(this.id, playerO);
+                checkForWinnerRows();
+                checkForWinnerColumns();
+                checkForWinnerDiag();
+
+                //TODO execute AI turn
+                //increase counter
+                //select middle spot if open
+                //else select random (for now)
+                //check for winner
+            }
+        }
+    }
+
+    function startTwoPlayer() {
+        if (canExecuteTurn(this)) {
             counter++;
 
             if (counter % 2 === 0) {
@@ -49,8 +70,7 @@
                 checkForWinnerRows();
                 checkForWinnerColumns();
                 checkForWinnerDiag();
-            }
-            else {
+            } else {
                 this.innerText = playerO;
                 executePlayersTurn(this.id, playerO);
                 checkForWinnerRows();
@@ -60,9 +80,9 @@
         }
     }
 
-    function canExecuteTurn() {
-        return (this.innerText != playerX
-                && this.innerText != playerO
+    function canExecuteTurn(element) {
+        return (element.innerText != playerX
+                && element.innerText != playerO
                 && !isGameComplete
                 && hasSelectedNumOfPlayers) ;
     }
@@ -72,7 +92,6 @@
         var col = id.slice(5, 6);
 
         board[row][col] = player;
-        console.log(board);
     }
 
     function checkForWinnerRows() {
@@ -168,7 +187,6 @@
         board = [];
         isGameComplete = false;
         counter = 0;
-
         initBoard();
 
         Array.from(mainClass).forEach(function(element) {
