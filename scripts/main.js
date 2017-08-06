@@ -6,11 +6,13 @@
     var playerO = "O";
     var isGameComplete = false;
     var hasSelectedNumOfPlayers = false;
+    var hasTieOccured = false;
     var numOfPlayers = 0;
 
     var mainClass = document.getElementsByClassName("main");
     var resetButton = document.getElementById("popup-button");
     var playerSelectClass = document.getElementsByClassName("player-select");
+    var winnerPopup = document.getElementById("winner");
 
     //listeners
     Array.from(playerSelectClass).forEach(function(element) {
@@ -56,31 +58,27 @@
     function startSinglePlayer() {
         if (canExecuteTurn(this)) {
             counter++
+            hasTieOccured = false;
 
             if (counter % 2 !== 0) {
                 this.innerText = playerO;
                 executePlayersTurn(this.id, playerO);
-                checkForWinnerRows();
-                checkForWinnerColumns();
-                checkForWinnerDiag();
+                checkForWinner()
 
+                if (hasTieOccured) {return};
                 //execute AI
                 counter++;
                 if (board[1][1] === 0) {
                     setTimeout(function(){document.getElementById("cell11").innerText = playerX;}, 400);
                     board[1][1] = "X";
-                    checkForWinnerRows();
-                    checkForWinnerColumns();
-                    checkForWinnerDiag();
+                    checkForWinner();
                 } else {
                     for (var i = 0; i < board.length; i++) {
                         for (var j = 0; j < board[i].length; j++) {
                             if (board[i][j] === 0) {
                                 updateAiCell(i,j);
                                 board[i][j] = playerX;
-                                checkForWinnerRows();
-                                checkForWinnerColumns();
-                                checkForWinnerDiag();
+                                checkForWinner();
                                 return;
                             }
                         }
@@ -97,15 +95,11 @@
             if (counter % 2 === 0) {
                 this.innerText = playerX;
                 executePlayersTurn(this.id, playerX);
-                checkForWinnerRows();
-                checkForWinnerColumns();
-                checkForWinnerDiag();
+                checkForWinner();
             } else {
                 this.innerText = playerO;
                 executePlayersTurn(this.id, playerO);
-                checkForWinnerRows();
-                checkForWinnerColumns();
-                checkForWinnerDiag();
+                checkForWinner();
             }
         }
     }
@@ -131,6 +125,18 @@
         board[row][col] = player;
     }
 
+    function checkForWinner() {
+        checkForWinnerRows();
+        checkForWinnerColumns();
+        checkForWinnerDiag();
+
+        if (counter >= 9 && winnerPopup.style.display === "none"){
+            reset();
+            hasTieOccured = true;
+            //TODO IMPLEMENT WINDOW TO DISPLAY THAT GAME ENDED IN A TIE
+        }
+    }
+
     function checkForWinnerRows() {
         for (var i = 0; i < board.length; i++){
             var oCounter = 0;
@@ -148,7 +154,6 @@
     }
 
     function checkForWinnerColumns() {
-
         for (var i = 0; i < board.length; i++){
             iterateThroughColumn(i);
         }
@@ -233,9 +238,7 @@
         });
 
         document.getElementById("players").style.display = "block";
-
-        var popup = document.getElementById("winner");
-        popup.style.display = "none";
+        winnerPopup.style.display = "none";
     }
 
 })();
