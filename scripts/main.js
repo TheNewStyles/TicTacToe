@@ -6,13 +6,15 @@
     var playerO = "O";
     var isGameComplete = false;
     var hasSelectedNumOfPlayers = false;
-    var hasTieOccured = false;
     var numOfPlayers = 0;
+    var hasReset = false;
 
     var mainClass = document.getElementsByClassName("main");
     var resetButton = document.getElementById("popup-button");
+    var resetButtonTie = document.getElementById("popup-button-tie");
     var playerSelectClass = document.getElementsByClassName("player-select");
     var winnerPopup = document.getElementById("winner");
+    var tiePopup = document.getElementById("tie");
 
     //listeners
     Array.from(playerSelectClass).forEach(function(element) {
@@ -20,7 +22,7 @@
     })
 
     resetButton.addEventListener("click", reset);
-
+    resetButtonTie.addEventListener("click", reset);
 
 
     //////////////////////////////////////////////////////////////////////////
@@ -57,35 +59,45 @@
 
     function startSinglePlayer() {
         if (canExecuteTurn(this)) {
-            counter++
-            hasTieOccured = false;
+            hasReset = false;
+            counter++;
 
             if (counter % 2 !== 0) {
                 this.innerText = playerO;
                 executePlayersTurn(this.id, playerO);
-                checkForWinner()
+                checkForWinner();
 
-                if (hasTieOccured) {return};
-                //execute AI
                 counter++;
-                if (board[1][1] === 0) {
-                    setTimeout(function(){document.getElementById("cell11").innerText = playerX;}, 400);
-                    board[1][1] = "X";
-                    checkForWinner();
-                } else {
-                    for (var i = 0; i < board.length; i++) {
-                        for (var j = 0; j < board[i].length; j++) {
-                            if (board[i][j] === 0) {
-                                updateAiCell(i,j);
-                                board[i][j] = playerX;
-                                checkForWinner();
-                                return;
-                            }
-                        }
+                if (hasReset) {return;}
+                executeAI();
+            }
+        }
+    }
+
+    function executeAI() {
+        if (board[1][1] === 0) {
+            setTimeout(function(){document.getElementById("cell11").innerText = playerX;}, 400);
+            board[1][1] = "X";
+            checkForWinner();
+        } else {
+            for (var i = 0; i < board.length; i++) {
+                for (var j = 0; j < board[i].length; j++) {
+                    if (board[i][j] === 0) {
+                        updateAiCell(i,j);
+                        board[i][j] = playerX;
+                        checkForWinner();
+                        return;
                     }
                 }
             }
         }
+    }
+
+    function updateAiCell(i, j) {
+        var row = i;
+        var col = j;
+        var cell = "cell" + row + col;
+        setTimeout(function(){document.getElementById(cell).innerText = playerX;}, 400);
     }
 
     function startTwoPlayer() {
@@ -102,13 +114,6 @@
                 checkForWinner();
             }
         }
-    }
-
-    function updateAiCell(i, j) {
-        var row = i;
-        var col = j;
-        var cell = "cell" + row + col;
-        setTimeout(function(){document.getElementById(cell).innerText = playerX;}, 400);
     }
 
     function canExecuteTurn(element) {
@@ -129,12 +134,22 @@
         checkForWinnerRows();
         checkForWinnerColumns();
         checkForWinnerDiag();
+        isBoardFull();
+    }
 
-        if (counter >= 9 && winnerPopup.style.display === "none"){
-            reset();
-            hasTieOccured = true;
-            //TODO IMPLEMENT WINDOW TO DISPLAY THAT GAME ENDED IN A TIE
-        }
+    function isBoardFull() {
+        var boardCounter = 0;
+
+        Array.from(mainClass).forEach(function(element) {
+            if (element.innerText !== "") {
+                boardCounter++;
+
+                if (boardCounter >= 9) {
+                    resetAfterTie();
+                    hasReset = true;
+                }
+            }
+        });
     }
 
     function checkForWinnerRows() {
@@ -238,7 +253,24 @@
         });
 
         document.getElementById("players").style.display = "block";
+        document.getElementById("tie").style.display = "none";
         winnerPopup.style.display = "none";
+    }
+
+    function resetAfterTie() {
+        board = [];
+        isGameComplete = false;
+        hasSelectedNumOfPlayers = false;
+        numOfPlayers = 0;
+        counter = 0;
+        initBoard();
+
+        Array.from(mainClass).forEach(function(element) {
+            element.innerText = "";
+        });
+
+        document.getElementById("tie").style.display = "block";
+        tiePopup.firstElementChild.innerText = "The game ended in a tie."
     }
 
 })();
