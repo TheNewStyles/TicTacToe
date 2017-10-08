@@ -1,25 +1,26 @@
 (function() {
+    "use strict";
 
-    var board = [];
-    var counter = 0;
-    var playerX = "X";
-    var playerO = "O";
-    var isGameComplete = false;
-    var hasSelectedNumOfPlayers = false;
-    var numOfPlayers = 0;
-    var hasReset = false;
+    let board = [];
+    let counter = 0;
+    const playerX = "X";
+    const playerO = "O";
+    let isGameComplete = false;
+    let hasSelectedNumOfPlayers = false;
+    let numOfPlayers = 0;
+    let hasReset = false;
 
-    var mainClass = document.getElementsByClassName("main");
-    var resetButton = document.getElementById("popup-button");
-    var resetButtonTie = document.getElementById("popup-button-tie");
-    var playerSelectClass = document.getElementsByClassName("player-select");
-    var winnerPopup = document.getElementById("winner");
-    var tiePopup = document.getElementById("tie");
+    const mainClass = document.getElementsByClassName("main");
+    const resetButton = document.getElementById("popup-button");
+    const resetButtonTie = document.getElementById("popup-button-tie");
+    const playerSelectClass = document.getElementsByClassName("player-select");
+    const winnerPopup = document.getElementById("winner");
+    const tiePopup = document.getElementById("tie");
 
     //listeners
     Array.from(playerSelectClass).forEach(function(element) {
         element.addEventListener("click", playerSelect);
-    })
+    });
 
     resetButton.addEventListener("click", reset);
     resetButtonTie.addEventListener("click", reset);
@@ -33,7 +34,7 @@
     }
 
     function initBoard() {
-        for (var i = 0; i <= 2; i++){
+        for (let i = 0; i <= 2; i++){
             board.push([0,0,0]);
         }
     }
@@ -80,8 +81,8 @@
             board[1][1] = "X";
             checkForWinner();
         } else {
-            for (var i = 0; i < board.length; i++) {
-                for (var j = 0; j < board[i].length; j++) {
+            for (let i = 0; i < board.length; i++) {
+                for (let j = 0; j < board[i].length; j++) {
                     if (board[i][j] === 0) {
                         updateAiCell(i,j);
                         board[i][j] = playerX;
@@ -94,9 +95,9 @@
     }
 
     function updateAiCell(i, j) {
-        var row = i;
-        var col = j;
-        var cell = "cell" + row + col;
+        const row = i;
+        const col = j;
+        const cell = `cell${row}${col}`;
         setTimeout(function(){document.getElementById(cell).innerText = playerX;}, 400);
     }
 
@@ -124,8 +125,8 @@
     }
 
     function executePlayersTurn(id, player) {
-        var row = id.slice(4, 5);
-        var col = id.slice(5, 6);
+        const row = id.slice(4, 5);
+        const col = id.slice(5, 6);
 
         board[row][col] = player;
     }
@@ -138,7 +139,7 @@
     }
 
     function isBoardFull() {
-        var boardCounter = 0;
+        let boardCounter = 0;
 
         Array.from(mainClass).forEach(function(element) {
             if (element.innerText !== "") {
@@ -153,10 +154,10 @@
     }
 
     function checkForWinnerRows() {
-        for (var i = 0; i < board.length; i++){
-            var oCounter = 0;
-            var xCounter = 0;
-            for (var j = 0; j < board[i].length; j++){
+        for (let i = 0; i < board.length; i++){
+            let oCounter = 0;
+            let xCounter = 0;
+            for (let j = 0; j < board[i].length; j++){
                 if (board[i][j] === playerO) {
                     oCounter++;
                     checkWin(oCounter, playerO);
@@ -169,16 +170,16 @@
     }
 
     function checkForWinnerColumns() {
-        for (var i = 0; i < board.length; i++){
+        for (let i = 0; i < board.length; i++){
             iterateThroughColumn(i);
         }
     }
 
     function iterateThroughColumn(column) {
-        var oCounter = 0;
-        var xCounter = 0;
+        let oCounter = 0;
+        let xCounter = 0;
 
-        for (var i = 0; i < board.length; i++) {
+        for (let i = 0; i < board.length; i++) {
             if (board[i][column] === playerO){
                 oCounter++;
                 checkWin(oCounter, playerO);
@@ -196,11 +197,11 @@
     }
 
     function bottomToTopDiag() {
-        var counter = 0;
-        var oCounter = 0;
-        var xCounter = 0;
+        let counter = 0;
+        let oCounter = 0;
+        let xCounter = 0;
 
-        for (var j = board.length - 1; j >= 0; j--) {
+        for (let j = board.length - 1; j >= 0; j--) {
             if (board[j][counter] === playerX){
                 xCounter++;
                 checkWin(xCounter, playerX);
@@ -213,10 +214,10 @@
     }
 
     function topToBottomDiag() {
-        var oCounter = 0;
-        var xCounter = 0;
+        let oCounter = 0;
+        let xCounter = 0;
 
-        for (var i = 0; i < board.length; i++) {
+        for (let i = 0; i < board.length; i++) {
             if (board[i][i] === playerX) {
                 xCounter++;
                 checkWin(xCounter, playerX);
@@ -234,7 +235,7 @@
     }
 
     function displayWinnerBox(player) {
-        var popup = document.getElementById("winner");
+        const popup = document.getElementById("winner");
         isGameComplete = true;
         popup.style.display = "inline";
         popup.firstElementChild.innerText = `${player} won the game!`;
