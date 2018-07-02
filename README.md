@@ -1,6 +1,6 @@
 # TicTacToe
 Freecodecamp TicTacToe game
-View it live here: https://thenewstyles.github.io/TicTacToe/.
+View it live here: https://thenewstyles.github.io/tic-tac-toe/
 
 Fulfill the below user stories. Use whichever libraries or APIs you need. Give it your own personal style.
 
